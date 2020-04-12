@@ -1,5 +1,9 @@
 package com.hencoder.hencoderpracticedraw6.practice;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Path;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hencoder.hencoderpracticedraw6.R;
+import com.hencoder.hencoderpracticedraw6.Utils;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
@@ -49,6 +54,38 @@ public class Practice01Translation extends RelativeLayout {
             @Override
             public void onClick(final View v) {
                 // TODO 在这里处理点击事件，通过 View.animate().translationX/Y/Z() 来让 View 平移
+
+                ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(imageView, "translationX", Utils.dpToPixel(100));
+                ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(imageView, "translationX", 0);
+                ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(imageView, "translationY", Utils.dpToPixel(50));
+                ObjectAnimator objectAnimator4 = ObjectAnimator.ofFloat(imageView, "translationY", 0);
+
+                ObjectAnimator objectAnimator5 = ObjectAnimator.ofFloat(imageView, "translationZ", Utils.dpToPixel(15));
+                ObjectAnimator objectAnimator6 = ObjectAnimator.ofFloat(imageView, "translationZ", 0);
+
+
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playSequentially(objectAnimator1
+                        , objectAnimator2
+                        , objectAnimator3
+                        , objectAnimator4
+                        , objectAnimator5
+                        , objectAnimator6);
+
+                animatorSet.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        animateBt.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        animateBt.setEnabled(true);
+                    }
+                });
+                animatorSet.start();
             }
         });
     }
